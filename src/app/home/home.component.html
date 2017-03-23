@@ -1,0 +1,61 @@
+<section class="clearfix">
+		<div class="container">
+			<div class="section-left">
+				<div class="box">
+					<div class="tabs">
+						<h3 (click)="onTaggleDisplay(true)"><a [ngClass]="{tabActive: isActive}" >Patient</a></h3>
+						<h3 (click)="onTaggleDisplay(false)"><a [ngClass]="{tabActive: !isActive}">Doctor</a></h3>
+					</div><!--.tabs-->
+					<form (ngSubmit)="onSubmit(patientForm.value)" #patientForm="ngForm">
+					<h4>Login as {{userType}}</h4>
+      				<input type="text" placeholder="Username" required = "required" ngModel name="username" #username = "ngModel" />
+     			    <input type="text" placeholder="Password" required = "required" ngModel name="password" #password = "ngModel"/>
+     			 	<button type="submit" >Login</button>
+      				<p>Not a member? <span routerLink="/signup" >Sign Up</span></p>
+					</form>
+    			</div>
+			</div>
+			<div class="section-right">
+				<p>Cardio Care provides you with</p>
+				<p>the Best Medical System</p>
+				<button class="learn-more" routerLink="/aboutus">Learn more</button>
+			</div>
+		</div>
+</section>
+<section class="info">
+		<div class="container">
+			<div class="left_cont">
+        		<div class="title">
+                		<div class="title_cont"><h1>Welcome to Cardio Care</h1></div>
+          		</div>
+           		<div class="text_content">
+						<p>Welcome to our world that understand Customer needs a world that actually cares. Cardio care established in Year 2000  is a north India based leading a medical equipment selling company in field of <strong>Cardio, Neonatal, Pediatrics, Anaesthesia, ENT, Skin, Medicine &amp;, Gynaecology.</strong></p>
+						<p>Complete Cardio Care is a comprehensive cardiovascular health supplement. It is formulated with natural ingredients which support healthy cholesterol, blood sugar, heart contractions, veins and arteries, reduce homocysteine, and protect the heart.</p>
+						<p>Our focus is on dedicating to supply excellent <strong>Medical &amp; Hospital Equipment</strong> with most competitive Prices.  Our Mission is to satisfy our clients with considerate, steadfast, and Passionate support so as to be Customer reliable partner. While outstanding quality is the company’s foundation. All Products are manufactured with ISO, CE or FDA Certificate. </p>
+						<p>Excellent quality, competitive prices: such a high cost-effective, will give Customer best advantage to the market. We are a Professional staff doing every effort to provide you top-ranking Products and services. We can promise that our service is a flexible and efficient. We always help you to hold advantage of competition.</p>
+
+           		</div>
+        </div>
+		<div class ="right_cont">
+			    <div class="title">
+                		<div class="title_cont"><h1>The AOR Difference</h1></div>
+          		</div>
+				<div class="text_content">
+					<ul>
+					<li>Cardio Care is a unique formula, completely unlike any others. It provides the most important heart health nutrients which target the different aspects of cardiovascular health to provide a multi-targeted approach.</li>
+					<li>Cardio Care is formulated with scientifically researched doses and standardized to contain effective amounts of the active ingredients.</li>
+					<li>Cardio Care provides the most effective forms of vitamin B12 and folic acid.</li>
+					<li>Cardio Care is a one-a-day.</li>
+					</ul>
+				</div>
+
+				<div class="title">
+                		<div class="title_cont"><h1>Who Should Use Cardio Care?</h1></div>
+						<div class="text_content">
+						<p>Cardio Care is convenient for those who have more than one cardiac concern, are at risk of developing other heart conditions or have a family history of heart disease.</p>
+						</div>
+				  </div>
+		</div>	
+
+		</div>
+</section>
