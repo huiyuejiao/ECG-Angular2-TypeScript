@@ -21,6 +21,7 @@ export class DoctorDashboardComponent implements OnInit {
   loadNoteData: boolean = true;
   constructor(private cookieService:CookieService,private doctorService: DoctorService, 
   private loginService:LoginService,public router: Router) { 
+    console.log("This is doctor dashboard constructor")
   }
 
   ngOnInit() {

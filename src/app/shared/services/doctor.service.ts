@@ -10,6 +10,7 @@ export class DoctorService extends BaseService {
 
     constructor(http: Http) {
         super('', http);
+        console.log("This is DoctorService constructor")
     }
     public leaveComment(comment:Comment,session_id:string){
         let body = JSON.stringify(comment);

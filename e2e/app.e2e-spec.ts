@@ -1,14 +1,22 @@
-import { EcgAppPage } from './app.po';
-
+// import { browser, element,by} from 'protractor';
+import { EcgAppPage} from './app.po';
+//browser let navigate to specific URL,
+//element let interate with DOM element on a web page;
+// by let locate element by CSS or other selector;
 describe('ecg-app App', function() {
-  let page: EcgAppPage;
-
+  let ecgAppPage = new EcgAppPage()
   beforeEach(() => {
-    page = new EcgAppPage();
+    ecgAppPage.navigateTo();
   });
 
-  it('should display message saying app works', () => {
-    page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
+  it('should have button with class .learn-more', () => {
+    let elem = ecgAppPage.getButton();
+    expect(elem.isPresent()).toBeTruthy();
+    expect(elem.getText()).toBe('About Cardiacare');
   });
+  it('should have login form ', () => {
+    let elem = ecgAppPage.getLoginForm();
+    expect(elem.isPresent()).toBeTruthy();
+  });
+
 });

@@ -13,6 +13,7 @@ export class DoctorNewPatientComponent implements OnInit {
   session_id: string;
   userid: number;
   usercol: string;
+  loadCommentData:boolean = true;
   constructor(private cookieService:CookieService,private doctorService: DoctorService,
   private loginSrvice:LoginService) { }
 
@@ -29,6 +30,7 @@ export class DoctorNewPatientComponent implements OnInit {
       this.doctorService.searchPatients(this.usercol, this.userid, this.session_id, serachform.name).subscribe(data =>{
             console.log(data);
             this.data = data.results;
+            this.loadCommentData = false;
       })
  }
 }

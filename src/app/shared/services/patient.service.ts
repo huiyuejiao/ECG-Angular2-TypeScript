@@ -9,6 +9,7 @@ import { Note } from '../data/note';
 export class PatientService extends BaseService {
     constructor(http: Http) {
         super('', http);
+        console.log("This is PatientService constructor")
     }
     public leaveNote(note:Note,session_id:string){
         let body = JSON.stringify(note);

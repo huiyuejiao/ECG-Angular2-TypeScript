@@ -27,6 +27,8 @@ export class LoginService extends BaseService {
     }
     constructor(http: Http) {
         super('', http);
+        console.log(http);
+        console.log("This is LoginService constructor")
     }
         public login(userLogin:UserLogin,patient:boolean){
             let body = JSON.stringify(userLogin);

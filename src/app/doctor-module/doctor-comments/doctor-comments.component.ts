@@ -21,7 +21,9 @@ export class DoctorCommentsComponent implements OnInit {
   loadCommentData: boolean = true;
   constructor(private _cacheService: CacheService,private cookieService:CookieService,
   private doctorService: DoctorService,
-  private loginService:LoginService,private searchService:SearchService,public router:Router) { }
+  private loginService:LoginService,private searchService:SearchService,public router:Router) {
+      console.log("This is doctor comments constructor")
+   }
 
   ngOnInit() {
       let  exists: boolean = this._cacheService.exists('doctor-comments');

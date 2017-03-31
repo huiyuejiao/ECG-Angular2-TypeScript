@@ -2,7 +2,9 @@ import { Http, Headers, RequestOptions, URLSearchParams, Response } from '@angul
 import { environment } from '../../../environments/environment';
 
 export class BaseService {
-    constructor(private servicePath: string, private http: Http) { }
+    constructor(private servicePath: string, private http: Http) {
+        console.log("This is BaseService constructor")
+     }
 
     public get(path?: string| number, params?: URLSearchParams) {
         let url: string = environment.apiUrl + this.servicePath;
