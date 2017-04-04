@@ -21,14 +21,12 @@ import { HomeService } from './shared/services/home.service';
 import { PatientService } from './shared/services/patient.service';
 import { DoctorService } from './shared/services/doctor.service';
 import { SearchService } from './shared/services/search.service';
-import { DatePickerComponent } from './date-picker/date-picker.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationComponent,
     FooterComponent,
-    DatePickerComponent,
     ...navigatableComponents
   ],
   imports: [

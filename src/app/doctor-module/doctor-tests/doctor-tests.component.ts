@@ -18,6 +18,7 @@ export class DoctorTestsComponent implements OnInit {
   session_id: string;
   userid: number;
   usercol: string;
+  originalData:any;
   loadTestData: boolean = true;
   constructor(private _cacheService: CacheService,private cookieService:CookieService,
   private doctorService: DoctorService,private loginService:LoginService,
@@ -37,6 +38,7 @@ export class DoctorTestsComponent implements OnInit {
                     console.log(data);
                     this.loadTestData = false;
                     this.data = data.results;
+                    this.originalData = this.data;
                     this.data.sort(function (a, b) { return new Date(b.created).getTime() - new Date(a.created).getTime(); });
                     this._cacheService.set('doctor-tests', this.data, {maxAge: 10 * 60});
           }); 
@@ -61,7 +63,8 @@ export class DoctorTestsComponent implements OnInit {
     console.log(patient);
   }
   onReset(searchForm){
-      searchForm.from.value = searchForm.to.value = "";
+      searchForm.from = searchForm.to = "";
+      this.data = this.originalData;
   }
 
 }

@@ -1,7 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChange } from '@angular/core';
-import { Router }  from '@angular/router';
-import { LoginService } from '../shared/services/login.service';
-import { CookieService } from 'angular2-cookie/core';
+import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
@@ -9,8 +6,8 @@ import { CookieService } from 'angular2-cookie/core';
 })
 export class NavigationComponent implements OnInit {
   patient: boolean = true;
-  usercol:string;
-  constructor(private cookieService:CookieService,private loginService: LoginService, public router: Router) { }
+  usercol: string;
+  constructor() { }
   ngOnInit() {
 
   }

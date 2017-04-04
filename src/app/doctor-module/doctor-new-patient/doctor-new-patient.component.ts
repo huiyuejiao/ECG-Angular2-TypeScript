@@ -13,7 +13,7 @@ export class DoctorNewPatientComponent implements OnInit {
   session_id: string;
   userid: number;
   usercol: string;
-  loadCommentData:boolean = true;
+  loadCommentData:boolean = false;
   constructor(private cookieService:CookieService,private doctorService: DoctorService,
   private loginSrvice:LoginService) { }
 
@@ -23,10 +23,11 @@ export class DoctorNewPatientComponent implements OnInit {
     this.usercol = JSON.parse(this.cookieService.get("user_info")).usercol;
   }
   onReset(searchForm){
-      searchForm.name.value =  "";
+      searchForm.name =  "";
   }
   onSearch(serachform){
       console.log(serachform);
+      this.loadCommentData = true;
       this.doctorService.searchPatients(this.usercol, this.userid, this.session_id, serachform.name).subscribe(data =>{
             console.log(data);
             this.data = data.results;

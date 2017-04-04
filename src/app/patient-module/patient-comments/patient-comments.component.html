@@ -28,7 +28,7 @@
                                             <div class="form-group">
                                                 <label for="pwd">To: &nbsp;&nbsp;</label>
                                                 <div class="input-group date" id="datepicker1">
-                                                    <input type="date" class="form-control"  placeholder="2016-07-07"  autocomplete="off" required = "required" ngModel name="to" #to = "ngModel">
+                                                    <input type="date"  id ='to'class="form-control"  placeholder="2016-07-07"  autocomplete="off" required = "required" ngModel name="to" #to = "ngModel">
                                                 </div>
                                             </div>
                                         </div>
@@ -39,14 +39,14 @@
                                               <div class="form-group">
                                                   <label for="pwd">Keyword: &nbsp;&nbsp;</label>
                                                   <div class="input-group">
-                                                      <input type="text" class="form-control" name="keyword" placeholder="keyword" autocomplete="off" ngModel  #keyword = "ngModel">
+                                                      <input type="text" id="keyword" class="form-control" name="keyword" placeholder="keyword" autocomplete="off" ngModel  #keyword = "ngModel">
                                                   </div>
                                               </div>
                                           </div>
                                   </div>
 
                                   <div class="text-right">
-                                      <button type="reset" class="btn btn-danger" (click)="onReset(searchForm)">Reset</button>&nbsp;&nbsp;&nbsp;
+                                      <button id="reset-button"type="reset" class="btn btn-danger" (click)="onReset(searchForm.value)">Reset</button>&nbsp;&nbsp;&nbsp;
                                       <button id="searchClick" class="btn btn-primary" (click)="onSearch(searchForm.value)">Search</button>
                                   </div>
                         </form>
@@ -79,11 +79,11 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of mf.data">
-                        <td>{{item.firstname}}  {{item.lastname}}</td>
-                        <td>{{item.content}}</td>
-                        <td (click)="testOnclick(item.for_record.test_id,item.for_record.id)"><a>{{item.for_record?.created}}</a></td>
-                        <td>{{item.for_note?.created}}</td>
-                        <td>{{item.created}}</td>
+                        <td class='data-item'>{{item.firstname}}  {{item.lastname}}</td>
+                        <td class='data-item'>{{item.content}}</td>
+                        <td class='data-item' (click)="testOnclick(item.for_record.test_id,item.for_record.id)"><a>{{item.for_record?.created}}</a></td>
+                        <td class='data-item'>{{item.for_note?.created}}</td>
+                        <td class='data-item'>{{item.created}}</td>
                     </tr>
                 </tbody>
                 <tfoot>

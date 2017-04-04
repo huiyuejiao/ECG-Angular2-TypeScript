@@ -17,20 +17,17 @@ export class PatientCommentsComponent implements OnInit {
   session_id: string;
   userid: number;
   usercol: string;
-  method: string;
   loadCommentData: boolean = true;
   resetData: any = [];
   constructor(private _cacheService: CacheService,private cookieService:CookieService,private patientService: PatientService,
   private searchService:SearchService, private loginService:LoginService,public router:Router) { 
-    console.log("this is constructor")
+
   }
 
   ngOnInit() {
-      console.log("This is ng init");
       this._cacheService.setGlobalPrefix("1.0.0");
       let  exists: boolean = this._cacheService.exists('comments');
       if(exists){
-          console.log("comments exist");
           this.loadCommentData = false;
           this.comments = this._cacheService.get('comments');
       }else{
@@ -49,7 +46,8 @@ export class PatientCommentsComponent implements OnInit {
   }
 
   onReset(searchForm){
-        searchForm.from.value = searchForm.to.value = searchForm.keyword.value = "";
+
+        searchForm.from = searchForm.to = searchForm.keyword = "";
         this.comments = this.resetData;
   }
   onSearch(serachform){

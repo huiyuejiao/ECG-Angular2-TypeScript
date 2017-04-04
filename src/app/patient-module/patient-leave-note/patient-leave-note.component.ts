@@ -34,9 +34,6 @@ export class PatientLeaveNoteComponent implements OnInit {
       }
     })
   }
-onChange(deviceValue) {
-    console.log(deviceValue);
-}
 testOnclick(testId:string){
     console.log(testId);
     this.note.test_id = testId;

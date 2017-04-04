@@ -17,22 +17,18 @@ export class HomeService extends BaseService {
     public patientSignup(patientSignup:PatientSignup){
         let body = JSON.stringify(patientSignup);
         let path:string = 'patient/register';
-        console.log(body);
         return this.post(body, path)
             .map(response => {
                 let json = response.json();
-                console.log(json);
                 return json;
             }).catch(this.handleError);        
     }
     public doctorSignup(doctorSignup: DoctorSignup){
         let body = JSON.stringify(doctorSignup);
         let path:string = 'doctor/register';
-        console.log(body);
         return this.post(body, path)
             .map(response => {
                 let json= response.json();
-                console.log(json);
             }).catch(this.handleError);        
     }    
     private handleError(error: any) {

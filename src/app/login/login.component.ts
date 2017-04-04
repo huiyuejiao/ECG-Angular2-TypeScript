@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   isActive:boolean = true;
   userlogin: UserLogin = new UserLogin();
   loginError: boolean = false;
-  userType: string = "Patient";
+  public userType: string = "Patient";
   constructor(private cookieService:CookieService,private loginService: LoginService,public toastr: ToastsManager, vcr: ViewContainerRef, public router: Router) {
         this.toastr.setRootViewContainerRef(vcr);
    }

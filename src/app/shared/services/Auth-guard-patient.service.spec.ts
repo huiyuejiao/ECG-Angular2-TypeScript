@@ -37,6 +37,8 @@ describe('AuthGuardService', () => {
        expect(cookieService.get).toHaveBeenCalledWith('user_info');
        // return false. will nativegate to '/login'
        expect(router.navigate).toHaveBeenCalled();
+       let navSpy: jasmine.Spy = router.navigate;
+       expect(navSpy.calls.first().args[0][0]).toBe('/login')
     }) 
   ));
 });

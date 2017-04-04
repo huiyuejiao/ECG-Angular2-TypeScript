@@ -10,7 +10,11 @@ import { ContactUsComponent }from './contact-us/contact-us.component';
 
 export  const appRoutes: Routes = [
     ...loginRoutes,
-
+    {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'home'
+    },
     {
         path:'doctor',
         loadChildren:'app/doctor-module/doctor.module#DoctorModule'
@@ -20,11 +24,6 @@ export  const appRoutes: Routes = [
         path:'patient',
         loadChildren:'app/patient-module/patient.module#PatientModule'
 
-    },
-    {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: 'home'
     },
     {
         path: 'home',

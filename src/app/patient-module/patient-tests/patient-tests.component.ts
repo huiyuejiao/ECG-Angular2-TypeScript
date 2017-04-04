@@ -47,7 +47,7 @@ export class PatientTestsComponent implements OnInit {
       this.router.navigate(['/patient/tests',test_id,"null"]);
   }
   onReset(searchForm){
-      searchForm.from.value = searchForm.to.value = "";
+      searchForm.from = searchForm.to = "";
       this.data = this.originalData;
   }
   onSearch(searchform){

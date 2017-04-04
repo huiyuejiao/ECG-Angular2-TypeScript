@@ -19,6 +19,7 @@ export class DoctorCommentsComponent implements OnInit {
   usercol: string;
   method: string;
   loadCommentData: boolean = true;
+  resetData: any = [];
   constructor(private _cacheService: CacheService,private cookieService:CookieService,
   private doctorService: DoctorService,
   private loginService:LoginService,private searchService:SearchService,public router:Router) {
@@ -39,13 +40,15 @@ export class DoctorCommentsComponent implements OnInit {
                     console.log(data);
                     this.loadCommentData = false;
                     this.comments = data.results;
+                    this.resetData = this.comments;
                     this.comments.sort(function (a, b) { return new Date(b.created).getTime() - new Date(a.created).getTime(); });
                     this._cacheService.set('doctor-comments', this.comments, {maxAge: 10 * 60});
         });
       }
   }
   onReset(searchForm){
-        searchForm.from.value = searchForm.to.value = searchForm.keyword.value = "";
+        searchForm.from = searchForm.to = searchForm.keyword = "";
+        this.comments = this.resetData;
   }
   onSearch(serachform){
         this.searchService.getComments(serachform.from,serachform.to,this.session_id,serachform.keyword).subscribe(data =>{

@@ -50,12 +50,12 @@
                                   </thead>
                                   <tbody>
                                       <tr *ngFor="let item of mf.data| searchDoctors:keyword">
-                                          <td>{{item.username}}</td>
-                                          <td>{{item.firstname}}{{item.lastname}}</td>
-                                          <td>{{item.hospital}}</td>
-                                          <td>{{item.phone}}</td>
-                                          <td>{{item.patients}}</td>
-                                          <td>{{item.connected_date}}</td>
+                                          <td class='data-item'>{{item.username}}</td>
+                                          <td class='data-item'>{{item.firstname}}{{item.lastname}}</td>
+                                          <td class='data-item'>{{item.hospital}}</td>
+                                          <td class='data-item'>{{item.phone}}</td>
+                                          <td class='data-item'>{{item.patients}}</td>
+                                          <td class='data-item'>{{item.connected_date}}</td>
                                           <td><button type="button" class="btn btn-success">Accept</button></td>
                                           <td><button type="button" class="btn btn-danger">Decline</button></td>
                                       </tr>

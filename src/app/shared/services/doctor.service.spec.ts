@@ -26,6 +26,23 @@ describe('DoctorServiceTest', () => {
         });
 
     }));
+    it('can instantiate service when inject service',
+    inject([DoctorService], (service: DoctorService) => {
+      expect(service instanceof DoctorService).toBe(true);
+    }));
+
+    it('can instantiate service with "new"', inject([Http], (http: Http) => {
+    expect(http).not.toBeNull('http should be provided');
+    let service = new DoctorService(http);
+    expect(service instanceof DoctorService).toBe(true, 'new service should be ok');
+    }));
+
+    it('can provide the mockBackend as XHRBackend',
+    inject([MockBackend], (backend: MockBackend) => {
+      expect(backend).not.toBeNull('backend should be provided');
+  
+    }));
+
     beforeEach(inject([ MockBackend, Http ],(mb: MockBackend, http: Http) => {
       mockBackend = mb;
     }));

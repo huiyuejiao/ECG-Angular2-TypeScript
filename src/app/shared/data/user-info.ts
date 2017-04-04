@@ -8,7 +8,7 @@ export class UserInfo {
     result: string;
     usercol: string;
     userid: string;
-
+    
     public static fromJSON(json: UserInfoJSON): UserInfo {
         let userinfo: UserInfo = new UserInfo();
         userinfo.result = json.result;

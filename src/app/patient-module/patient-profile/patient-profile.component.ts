@@ -14,13 +14,13 @@ export class PatientProfileComponent implements OnInit {
   userid: number;
   usercol: string;
   result: any;
+  exists: boolean;
   constructor(private _cacheService: CacheService,private cookieService:CookieService,
   private patientService: PatientService,private loginService: LoginService) { }
 
   ngOnInit() {
-      let  exists: boolean = this._cacheService.exists('profile');
-      if(exists){
-          console.log("profile Data exist");
+         this.exists = this._cacheService.exists('profile');
+      if(this.exists){
           this.result = this._cacheService.get('profile');
       }else{
           this.session_id = this.loginService.getSessionId();
@@ -31,7 +31,7 @@ export class PatientProfileComponent implements OnInit {
                   this.result = data;
                   this._cacheService.set('profile', this.result, {maxAge: 10 * 60});
           });
-      }
+     }
   }
 
 }

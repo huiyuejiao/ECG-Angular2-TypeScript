@@ -19,13 +19,13 @@ export class PatientDoctorsComponent implements OnInit {
   method: string;
   keyword: string;
   loadDoctors: boolean = true;
+  exists:boolean;
   constructor(private _cacheService: CacheService,private cookieService:CookieService,
   private patientService: PatientService,private loginService: LoginService) { }
 
   ngOnInit() {
-      let  exists: boolean = this._cacheService.exists('doctors');
-      if(exists){
-          console.log(" doctors Data exist");
+      this.exists = this._cacheService.exists('doctors');
+      if(this.exists){
           this.loadDoctors = false;
           this.data = this._cacheService.get('doctors');
       }else{
