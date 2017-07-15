@@ -58,10 +58,11 @@
                     <tr *ngIf="!data[0]" class="odd"><td colspan="4">No patients found.</td></tr>
                     <tr *ngFor="let item of mf.data">
                         <td>{{item.name}}</td>
-                        <td>{{item.usernmae}}</td>
+                        <td>{{item.username}}</td>
                         <td>{{item.email}}</td>
                         <td *ngIf="item.status=='connected'" >{{item.status}}</td>
-                        <td *ngIf="item.status=='new'"  ><button type="button" class="btn btn-success">Connect</button></td>
+                        <td *ngIf="item.status=='request sent'" >{{item.status}}</td>
+                        <td *ngIf="item.status=='new'"  (click)="onClick(item)"><button type="button" class="btn btn-success">Connect</button></td>
                     </tr>
                 </tbody>
                 <tfoot>

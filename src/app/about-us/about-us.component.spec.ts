@@ -16,9 +16,8 @@ describe('ContactUsComponent (highlightDirective)', () => {
     fixture.detectChanges(); // initial binding
   });
 
-  it('should have skyblue <h2>', () => {
+  it('should have <h2>', () => {
     const de = fixture.debugElement.query(By.css('h2'));
-    const bgColor = de.nativeElement.style.backgroundColor;
     expect(de.nativeElement).toBeDefined();
   });
 });

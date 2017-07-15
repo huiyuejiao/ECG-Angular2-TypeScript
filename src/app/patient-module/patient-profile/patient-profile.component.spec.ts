@@ -1,8 +1,7 @@
 import { async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import { ActivatedRoute, Router, RouterLink, RouterOutlet} from '@angular/router';
 import { By }           from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-import { Injectable } from '@angular/core';
+import { DebugElement, Injectable } from '@angular/core';
 import { RouterStub} from '../../router-stubs';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';

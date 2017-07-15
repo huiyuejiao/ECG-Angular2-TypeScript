@@ -75,6 +75,7 @@ function createComponent() {
 
   page = new Page();
 }
+//Tame the madness with a Page class that simplifies access to component properties and encapsulates the logic that sets them.
 class Page {
   aboutLinkDe:     DebugElement;
   homeLinkDe: DebugElement;
@@ -98,6 +99,7 @@ class Page {
 
   constructor() {
     router.events.subscribe(e => this.recordedEvents.push(e));
+    // get all a tag
     const links = fixture.debugElement.queryAll(By.directive(RouterLinkWithHref));
     this.aboutLinkDe     = links[1];
     this.homeLinkDe = links[0];
@@ -108,6 +110,7 @@ class Page {
     this.router  = router;
   }
 }
+
 function expectPathToBe(path: string, expectationFailOutput?: any) {
   expect(location.path()).toEqual(path, expectationFailOutput || 'location.path()');
 }

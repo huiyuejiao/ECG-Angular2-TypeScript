@@ -20,16 +20,21 @@ describe('SearchBoxComponent when tested directly', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SearchBoxComponent);
     comp    = fixture.componentInstance;
-    heroEl  = fixture.debugElement.query(By.css('.form-control')); // find hero element
+    heroEl  = fixture.debugElement.query(By.css('.form-control')); // find input element
     fixture.detectChanges(); // trigger initial data binding
   });
   it('should display  input', () => {
     expect(heroEl).toBeDefined();
   });
   it('should raise selected event when clicked', () => {
+    comp.update.subscribe((value) => {
+      expect(value).toBe('keyword')
+    });
+    comp.onInput('keyword')
+  });
+  it('should raise selected event when dispatchEvent input', () => {
     let inputValue: any;
     comp.update.subscribe((value) => inputValue = value);
-
     let input:HTMLInputElement  = heroEl.nativeElement;
     input.value="keyword";
     input.dispatchEvent(new Event('input'));

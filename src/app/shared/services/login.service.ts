@@ -1,6 +1,6 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { Http, URLSearchParams, Response } from '@angular/http';
-
+import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 
@@ -11,6 +11,18 @@ import { BaseService } from './base.service';
 
 @Injectable()
 export class LoginService extends BaseService {
+
+    @Output()userLogined = new EventEmitter();
+
+    // Observable string sources
+    private emitChangeSource = new Subject<any>();
+    // Observable string streams
+    changeEmitted$ = this.emitChangeSource.asObservable();
+    // Service message commands
+    emitChange(change: any) {
+        this.emitChangeSource.next(change);
+    }
+
 
     public isLoggedIn: boolean = false;
     public loggedInUser :string;
@@ -25,10 +37,13 @@ export class LoginService extends BaseService {
     public clearSessionId(): void {
         this.session_id = null;
     }
+    public getIsLoggedIn(){
+         
+    }
     constructor(http: Http) {
         super('', http);
     }
-        public login(userLogin:UserLogin,patient:boolean){
+    public login(userLogin: UserLogin,patient: boolean){
             let body = JSON.stringify(userLogin);
             let path:string;
             if(patient){
@@ -43,6 +58,7 @@ export class LoginService extends BaseService {
                     let json = response.json();
                     if(json.result == "success"){
                         this.isLoggedIn = true;
+                        this.emitChange(this.isLoggedIn);
                         this.loggedInUser = json.usercol;
                         this.setSessionId(json.session_id);}
                     return json;
@@ -63,6 +79,7 @@ export class LoginService extends BaseService {
                     if(json.result == "success"){
                         this.clearSessionId();
                         this.isLoggedIn  = false;
+                        this.emitChange(this.isLoggedIn);
                         this.loggedInUser = "";
                     }
                     return json;

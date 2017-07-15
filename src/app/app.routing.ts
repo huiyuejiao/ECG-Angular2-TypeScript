@@ -53,6 +53,8 @@ export  const appRoutes: Routes = [
 export const appRoutingProviders: any[] = [
     authProviders
 ];
+//use the static RouterModule.forRoot method at the application-level only. 
+//If we were to set up routing at lower-levels, we would use the static RouterModule.forChild method,
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes)],
   exports: [RouterModule]

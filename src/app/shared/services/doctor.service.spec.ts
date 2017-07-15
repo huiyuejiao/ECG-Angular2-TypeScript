@@ -26,6 +26,7 @@ describe('DoctorServiceTest', () => {
         });
 
     }));
+    // inject let us get dependency from TestBed
     it('can instantiate service when inject service',
     inject([DoctorService], (service: DoctorService) => {
       expect(service instanceof DoctorService).toBe(true);
@@ -57,13 +58,15 @@ describe('DoctorServiceTest', () => {
         "from": "2015-06-07 13:30:00",
         "to": "2015-06-07 13:33:00",
         "content": "352363463463461363466134634163463414352643463463463463466346346346"
-        }
+    }
+    // we don't need async as MockBackend make calls synchronously
         mockBackend.connections.subscribe((connection: MockConnection) => {
             expect(connection.request.method).toEqual(RequestMethod.Get);
            // expect(connection.request.url).toEqual('app/heroes/?name=some term');
             connection.mockRespond(new Response(new ResponseOptions({
             body: {data: JSON.stringify(recordData)}
-            })))
+        })
+        ))
         });
         expect(doctorService).toBeTruthy();
         doctorService.getRecord("Asa","aas").subscribe((res)=>{

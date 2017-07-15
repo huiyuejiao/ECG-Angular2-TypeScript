@@ -9,8 +9,9 @@
 				</nav>
 		</div>
 		<div class="header-right">
-			 <a  routerLink="/login"><span class="glyphicon glyphicon-user"></span> Login</a>
-			 <a  routerLink="/signup"><span class="glyphicon glyphicon-log-in"></span> Signup</a>
+			 <a *ngIf='!logined' routerLink="/login"><span class="glyphicon glyphicon-user"></span> Login</a>
+			 <a *ngIf='logined'routerLink="['/', usercol, 'profile']"><span class="glyphicon glyphicon-user"></span> User</a>
+			 <a  routerLink="/signup"><span class="glyphicon glyphicon-log-in"></span> Signup</a>	
 		</div>
 
 	</div>
