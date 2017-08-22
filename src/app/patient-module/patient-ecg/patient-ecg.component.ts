@@ -129,14 +129,6 @@ export class PatientEcgComponent implements OnInit {
         }
   }
   onDownload(){
-    var downloadData:any = { };
-    downloadData.from = this.record_data.from;
-    downloadData.to = this.record_data.to;
-    downloadData.length = this.record_data.length;
-    downloadData.userid = this.record_data.userid;
-    downloadData.recordid = this.record_data.id;
-    downloadData.channel1 = this.channel1_download;
-    downloadData.channel2 = this.channel2_download;
     var tt = [];
     var newData = new DownloadData(this.record_data.from,this.record_data.to,this.record_data.length +' seconds',this.record_data.userid,this.record_data.id,this.channel1_download[0],this.channel2_download[0]);
     tt.push(newData);
@@ -144,13 +136,7 @@ export class PatientEcgComponent implements OnInit {
         var newData = new DownloadData('','','','','',this.channel1_download[i],this.channel2_download[i]);
         tt.push(newData);
     }
-
-    var textEncoder = new TextEncoder('windows-1252',{NONSTANDARD_allowLegacyEncoding: true});
-    var    csvData = JSON.stringify(tt);
-    var csvContentEncoded = textEncoder.encode(csvData);
-    var blob = new Blob([csvContentEncoded], {type: 'text/csv;charset=windows-1252;'});
-    // saveAs(blob, 'record_data'+EXCEL_EXTENSION);
-      var options = { 
+    var options = { 
     showLabels: true, 
     showTitle: false,
     useBom: false,
