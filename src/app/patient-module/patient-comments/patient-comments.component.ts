@@ -28,18 +28,17 @@ export class PatientCommentsComponent implements OnInit {
       this._cacheService.setGlobalPrefix("1.0.0");
       let  exists: boolean = this._cacheService.exists('comments');
       if(exists){
-          this.loadCommentData = false;
           this.comments = this._cacheService.get('comments');
+          this.loadCommentData = false;
       }else{
-          this.session_id = this.loginService.getSessionId();
+          this.session_id = this.cookieService.get('sessionId');
           this.userid = JSON.parse(this.cookieService.get("user_info")).userid;
           this.usercol = JSON.parse(this.cookieService.get("user_info")).usercol;
-          this.patientService.getData(this.usercol, this.userid, this.session_id, Methods[Methods.getcomments]).subscribe(data => {
-                  console.log(data);
-                  this.loadCommentData = false;
+          this.patientService.getData(this.usercol, this.userid, this.session_id, Methods[Methods.getcomments]).subscribe(data => {            
                   this.comments = data.results;
                   this.resetData = this.comments;
                   this.comments.sort(function (a, b) { return new Date(b.created).getTime() - new Date(a.created).getTime(); });
+                  this.loadCommentData = false;                  
                   this._cacheService.set('comments', this.comments, {maxAge: 10 * 60});
            });
       }

@@ -42,7 +42,7 @@ export class DoctorEcgComponent implements OnInit {
   private loginService:LoginService,private route: ActivatedRoute) { }
 
   ngOnInit() {
-        this.session_id = this.loginService.getSessionId();
+        this.session_id = this.cookieService.get('sessionId');
         this.doctorService.getTestInfo(this.route.snapshot.params['id'],this.session_id).subscribe(data => {
             this.testdata = data;
             this.notes = data.notes;
@@ -53,7 +53,6 @@ export class DoctorEcgComponent implements OnInit {
                 this.record_id = this.records[0].id;
             }
             this.patient_id = this.testdata.userid;
-            console.log(this.route.snapshot.params['record_id'])
             this.doctorService.getRecord(this.session_id,this.record_id).subscribe(data => {
                 let result = data; 
                 this.isActive = 0;  
@@ -103,7 +102,6 @@ getChannelData(content){
             this.comment.patient_id = this.patient_id;
             this.comment.record_id = this.record_id;
             this.doctorService.leaveComment(this.comment,this.session_id).subscribe(data => {
-                console.log(data);
                 if(data.result == "success"){
                     alert('Created comment successfully!')
                 }

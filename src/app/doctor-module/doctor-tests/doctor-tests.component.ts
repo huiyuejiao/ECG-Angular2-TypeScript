@@ -25,17 +25,18 @@ export class DoctorTestsComponent implements OnInit {
   private searchService:SearchService,public router: Router) { }
 
   ngOnInit() {
-      this.session_id = this.loginService.getSessionId();
+      this._cacheService.setGlobalPrefix("1.0.0");
+      this.session_id = this.cookieService.get('sessionId');
       this.userid = JSON.parse(this.cookieService.get("user_info")).userid;
       this.usercol = JSON.parse(this.cookieService.get("user_info")).usercol;
       let  exists: boolean = this._cacheService.exists('doctor-tests');
       if(exists){
-          console.log("doctor-tests exist");
+        
           this.loadTestData = false;
           this.data = this._cacheService.get('doctor-tests');
       }else{
           this.doctorService.getData(this.usercol, this.userid, this.session_id, Methods[Methods.gettests]).subscribe(data => {
-                    console.log(data);
+                    
                     this.loadTestData = false;
                     this.data = data.results;
                     this.originalData = this.data;
@@ -48,19 +49,19 @@ export class DoctorTestsComponent implements OnInit {
       }); 
   }
   testOnclick(test_id){
-      console.log(test_id);
+      
       this.router.navigate(['/doctor/tests',test_id,"null"]);
   }
   onSearch(searchform){
-      console.log(searchform);
+     
       this.searchService.getTests(this.session_id,this.userid.toString(),searchform.from,searchform.to,searchform.comment,searchform.note).subscribe(data =>{
-          console.log(data);
+         
           this.data = data.results;
 
      })
   }
   onChange(patient){
-    console.log(patient);
+   
   }
   onReset(searchForm){
       searchForm.from = searchForm.to = "";

@@ -27,13 +27,14 @@ export class DoctorNotesComponent implements OnInit {
   private loginService:LoginService, public router:Router) { }
 
   ngOnInit() {
+      this._cacheService.setGlobalPrefix("1.0.0");
       let  exists: boolean = this._cacheService.exists('doctor-notes');
       if(exists){
-          console.log("doctor-notes exist");
+          
           this.loadNoteData = false;
           this.notes = this._cacheService.get('doctor-notes');
       }else{
-          this.session_id = this.loginService.getSessionId();
+          this.session_id = this.cookieService.get('sessionId');
           this.userid = JSON.parse(this.cookieService.get("user_info")).userid;
           this.usercol = JSON.parse(this.cookieService.get("user_info")).usercol;
           this.doctorService.getData(this.usercol, this.userid, this.session_id, Methods[Methods.getnotes]).subscribe(data => {
@@ -55,7 +56,7 @@ export class DoctorNotesComponent implements OnInit {
             this.comment.patient_id = this.patient_id;
             this.comment.note_id = this.note_id;
             this.doctorService.leaveComment(this.comment,this.session_id).subscribe(data => {
-                      console.log(data);
+                    
                       if(data.result == "success"){
                         alert("Created comment successfully!");
                       }

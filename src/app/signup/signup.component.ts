@@ -21,13 +21,13 @@ export class SignupComponent implements OnInit {
   ngOnInit() {
   }
   onSubmit(doctor) {    
-    console.log(doctor);
+
     if(this.patientSignupShow){
             let  patientSignup: PatientSignup = new PatientSignup(doctor.firstname,doctor.lastname,doctor.gender,
             doctor.birthday,doctor.username,doctor.password,doctor.phone,doctor.address,doctor.medicalplannumber,doctor.subscribe);
-            console.log(patientSignup);
+          
             this.homeService.patientSignup(patientSignup).subscribe((res) => {
-            console.log(res);
+
             if(res.result == "success"){      
                   this.toastr.success("Redirecting to  login page!","Signup Successfully!")
                   setTimeout(() => {
@@ -40,9 +40,9 @@ export class SignupComponent implements OnInit {
     }else{
             let  doctorSignup: DoctorSignup = new DoctorSignup(doctor.firstname,doctor.lastname,doctor.gender,
             doctor.birthday,doctor.username,doctor.password,doctor.phone,doctor.address,doctor.hospital,doctor.subscribe);
-                console.log(doctorSignup);
+            
             this.homeService.doctorSignup(doctorSignup).subscribe((res) => {
-            console.log(res);
+       
             if(res.result == "success"){
                 this.toastr.success("Redirecting to  login page!","Signup Successfully!")
                 setTimeout(() => {

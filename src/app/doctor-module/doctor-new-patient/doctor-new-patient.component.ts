@@ -22,15 +22,15 @@ export class DoctorNewPatientComponent implements OnInit {
   ngOnInit() {
     let  exists: boolean = this._cacheService.exists('doctor-allpatient');
       if(exists){
-          console.log("doctor-allpatient exist");
+          
           this.loadCommentData = false;
           this.data = this._cacheService.get('doctor-allpatient');
       }else{
-          this.session_id = this.loginSrvice.getSessionId();
+          this.session_id = this.cookieService.get('sessionId');
           this.userid = JSON.parse(this.cookieService.get("user_info")).userid;
           this.usercol = JSON.parse(this.cookieService.get("user_info")).usercol;
           this.doctorService.searchPatients(this.usercol, this.userid, this.session_id, '').subscribe(data => {
-                          console.log(data.results);
+                         
                           this.loadCommentData = false;
                           this.data = data.results;
                           this._cacheService.set('doctor-allpatient', this.data, {maxAge: 10 * 60});
@@ -41,15 +41,15 @@ export class DoctorNewPatientComponent implements OnInit {
       searchForm.name =  "";
   }
   onSearch(serachform){
-      console.log(serachform);
+      
       this.loadCommentData = true;
       this.doctorService.searchPatients(this.usercol, this.userid, this.session_id, serachform.name).subscribe(data =>{
-            console.log(data);
+            
             this.data = data.results;
             this.loadCommentData = false;
       })
  }
  onClick(item){
-  console.log(item);
+  
  }
 }

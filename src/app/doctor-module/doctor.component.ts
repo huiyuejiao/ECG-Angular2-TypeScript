@@ -20,14 +20,15 @@ export class DoctorComponent implements OnInit {
   private loginService: LoginService,private doctorService: DoctorService,public router: Router) {
   }
   ngOnInit() {
+    this._cacheService.setGlobalPrefix("1.0.0");
     this.usercol = JSON.parse(this.cookieService.get("user_info")).usercol;
     this.patient = this.usercol == 'patient'? true:false;
       let  exists: boolean = this._cacheService.exists('doctor-profile');
       if(exists){
-          console.log("doctor-profile exist");
+          
           this.result = this._cacheService.get('doctor-profile');
       }else{
-          this.session_id = this.loginService.getSessionId();
+          this.session_id = this.cookieService.get('sessionId');
           this.userid = JSON.parse(this.cookieService.get("user_info")).userid;
           this.usercol = JSON.parse(this.cookieService.get("user_info")).usercol;
           this.doctorService.getInfo(this.usercol, this.userid, this.session_id).subscribe(data => {

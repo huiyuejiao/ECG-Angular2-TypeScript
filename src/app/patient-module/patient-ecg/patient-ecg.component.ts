@@ -1,12 +1,18 @@
 import { Component, OnInit,ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { saveAs } from "file-saver";
+import { Angular2Csv } from 'angular2-csv/Angular2-csv';
+import { TextEncoder } from 'text-encoding';
 import { DataTableModule } from 'angular2-datatable';
 import { PatientService } from '../../shared/services/patient.service';
 import { LoginService } from '../../shared/services/login.service';
 import { CookieService } from 'angular2-cookie/core';
 import { Note} from'../../shared/data/note';
+import { DownloadData} from '../../shared/data/downloaded-data';
 import 'rxjs/add/operator/mergeMap';
 import { Observable } from 'rxjs/Observable';
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.csv';
 import { D3Service, D3, D3DragEvent, D3ZoomEvent,
   Axis,
   BrushBehavior,
@@ -21,6 +27,7 @@ import { D3Service, D3, D3DragEvent, D3ZoomEvent,
   templateUrl: './patient-ecg.component.html',
   styleUrls: ['../../bootstrap-custom.css', '../../common.css','./patient-ecg.component.css']
 })
+
 export class PatientEcgComponent implements OnInit {
   testdata: any = [];
   notes: any = [];
@@ -34,43 +41,43 @@ export class PatientEcgComponent implements OnInit {
   data2;
   channel1: any =[];
   channel2: any =[];
+  channel1_download: any =[];
+  channel2_download: any =[];
   length;
   mask: boolean = true;
+  record_data;
   constructor(private cookieService:CookieService,private patientService: PatientService,
   private loginService:LoginService,private route: ActivatedRoute) {
 
   }
   ngOnInit() {
-      this.session_id = this.loginService.getSessionId();
+      this.session_id = this.cookieService.get('sessionId');
       this.patientService.getTestInfo(this.route.snapshot.params['id'],this.session_id).subscribe(data => {
             this.testdata = data;
             this.notes = data.notes;
             this.comments = data.comments;
-            this.records = data.results;
-            console.log(data);
+            this.records = data.results;  
             this.record_id = this.route.snapshot.params['record_id'];
             if(this.route.snapshot.params['record_id']=="null"){
                 this.record_id = this.records[0].id;
             } 
             this.patientService.getRecord(this.session_id,this.record_id).subscribe(data => {
-                let result = data;
-                console.log(result); 
+                let result = data; 
+                this.record_data = data;              
                 this.isActive = 0;  
-                this.getChannelData(result.content);                
-                
+                this.getChannelData(result.content);                               
         });
       })
    
   }
   getChannelData(content){
                // var decodedata = Base64.decode(content);  // ZGFua29nYWk=
-                var decodedata = atob(content);
-                console.log(decodedata);
+               // 64 decode
+                var decodedata = atob(content);         
                 var decodestringdata = [];
                 decodestringdata = decodedata.split("");
                 var datalist = [];
-                decodestringdata.map(function (e) { datalist.push(e.charCodeAt()) });
-                console.log(datalist);
+                decodestringdata.map(function (e) { datalist.push(e.charCodeAt()) });              
                 this.channel1.length = this.channel2.length = 0;
                 var totalList = [];
                 for(var i = 0; i<datalist.length*2/5;i=i+2){
@@ -85,20 +92,23 @@ export class PatientEcgComponent implements OnInit {
                 }
                 for(var i = 0;i < totalList.length;i=i+2){
                    this.channel1.push([i/500, 10*totalList[i]*4.84/(65536-1)]);
+                   this.channel1_download.push(10*totalList[i]*4.84/(65536-1));
                    this.channel2.push([i/500, 10*totalList[i+1]*4.84/(65536-1)]);
+                   this.channel2_download.push(10*totalList[i+1]*4.84/(65536-1))
                 }
+
                 this.length = this.channel1.length;
-                console.log(this.channel1.length);
+                
                 this.mask = false;
   }
   onClickEcg(recordId, index){
             this.mask = true;
-            console.log(index);
+   
             this.record_id = recordId;
             this.patientService.getRecord(this.session_id,recordId).subscribe(data => {
                 this.isActive = index;
                 let result = data;
-                console.log(result);  
+                 
                 this.getChannelData(result.content);
         });
   }
@@ -109,13 +119,45 @@ export class PatientEcgComponent implements OnInit {
              this.note.content = noteForm.noteContent;
               this.note.test_id = this.route.snapshot.params['id'];
               this.note.record_id = this.record_id;
-              console.log(this.note);
+           
               this.patientService.leaveNote(this.note,this.session_id).subscribe(data => {
-                  console.log(data);
+        
                     if(data.result == "success"){
                         alert('Created note successfully!')
                     }
               })        
         }
   }
+  onDownload(){
+    var downloadData:any = { };
+    downloadData.from = this.record_data.from;
+    downloadData.to = this.record_data.to;
+    downloadData.length = this.record_data.length;
+    downloadData.userid = this.record_data.userid;
+    downloadData.recordid = this.record_data.id;
+    downloadData.channel1 = this.channel1_download;
+    downloadData.channel2 = this.channel2_download;
+    var tt = [];
+    var newData = new DownloadData(this.record_data.from,this.record_data.to,this.record_data.length +' seconds',this.record_data.userid,this.record_data.id,this.channel1_download[0],this.channel2_download[0]);
+    tt.push(newData);
+    for(var i = 1;i < this.channel1_download.length;i++){
+        var newData = new DownloadData('','','','','',this.channel1_download[i],this.channel2_download[i]);
+        tt.push(newData);
+    }
+
+    var textEncoder = new TextEncoder('windows-1252',{NONSTANDARD_allowLegacyEncoding: true});
+    var    csvData = JSON.stringify(tt);
+    var csvContentEncoded = textEncoder.encode(csvData);
+    var blob = new Blob([csvContentEncoded], {type: 'text/csv;charset=windows-1252;'});
+    // saveAs(blob, 'record_data'+EXCEL_EXTENSION);
+      var options = { 
+    showLabels: true, 
+    showTitle: false,
+    useBom: false,
+    title:'Record',
+    headers:['from','to','length','userid','recordid','channal_1','channal_2']
+  };
+    var csv = new Angular2Csv(tt, 'Record_data',options);
+
+    }
 }

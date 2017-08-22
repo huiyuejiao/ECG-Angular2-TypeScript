@@ -14,7 +14,7 @@ export class NavigationComponent implements OnInit,OnChanges {
   constructor(private loginService: LoginService, private cookieService: CookieService) { }
   ngOnChanges(changes: any) {
 
-    console.log("This is input  changed"+changes.logined.currentValue);
+    
     this.logined = changes.logined.currentValue;
     if(this.logined){
       this.usercol = JSON.parse(this.cookieService.get("user_info")).usercol;

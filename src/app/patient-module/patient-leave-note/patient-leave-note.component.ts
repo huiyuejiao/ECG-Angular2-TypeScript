@@ -22,22 +22,22 @@ export class PatientLeaveNoteComponent implements OnInit {
   private searchService:SearchService,private loginService: LoginService, public router:Router) { }
 
   ngOnInit() {
-      this.session_id = this.loginService.getSessionId();
+      this.session_id = this.cookieService.get('sessionId');
       this.userid = JSON.parse(this.cookieService.get("user_info")).userid;
   }
   onSearch(from,to){
     this.searchService.getTests(this.session_id,this.userid.toString(),from,to,"false","false").subscribe(data =>{
       this.data = data.results;
-      console.log(this.data);
+
         if(this.data.length ==0){
         this.testsShow = true;
       }
     })
   }
 testOnclick(testId:string){
-    console.log(testId);
+   
     this.note.test_id = testId;
-    console.log(this.note)
+
 }
 onSubmit(form){
     if(form.noteContent == ""){
@@ -45,9 +45,9 @@ onSubmit(form){
     }else{
       this.note.content = form.noteContent;
       this.note.time = form.occurrenceTime ? form.occurrenceTime: undefined;
-      console.log(this.note);
+
       this.patientService.leaveNote(this.note,this.session_id).subscribe( data =>{
-        console.log(data);
+
         if(data.result == "success"){
             alert("Create note successfully!");
         }

@@ -19,15 +19,16 @@ export class PatientProfileComponent implements OnInit {
   private patientService: PatientService,private loginService: LoginService) { }
 
   ngOnInit() {
+    this._cacheService.setGlobalPrefix("1.0.0");
          this.exists = this._cacheService.exists('profile');
       if(this.exists){
           this.result = this._cacheService.get('profile');
       }else{
-          this.session_id = this.loginService.getSessionId();
+          this.session_id = this.cookieService.get('sessionId');
           this.userid = JSON.parse(this.cookieService.get("user_info")).userid;
           this.usercol = JSON.parse(this.cookieService.get("user_info")).usercol;
           this.patientService.getInfo(this.usercol, this.userid, this.session_id).subscribe(data => {
-                  console.log(data);
+             
                   this.result = data;
                   this._cacheService.set('profile', this.result, {maxAge: 10 * 60});
           });

@@ -21,11 +21,11 @@ export class DoctorDashboardComponent implements OnInit {
   loadNoteData: boolean = true;
   constructor(private cookieService:CookieService,private doctorService: DoctorService, 
   private loginService:LoginService,public router: Router) { 
-    console.log("This is doctor dashboard constructor")
+   
   }
 
   ngOnInit() {
-      this.session_id = this.loginService.getSessionId();
+      this.session_id = this.cookieService.get('sessionId');;
       this.userid = JSON.parse(this.cookieService.get("user_info")).userid;
       this.usercol = JSON.parse(this.cookieService.get("user_info")).usercol;
 

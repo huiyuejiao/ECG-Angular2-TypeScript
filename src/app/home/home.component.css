@@ -1,3 +1,5 @@
+/* li { background: grey; } */
+li:nth-child(odd) { background: white ; }
 section{
 	width: 100%;
 	height: auto;

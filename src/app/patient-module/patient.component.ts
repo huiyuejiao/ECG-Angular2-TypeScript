@@ -19,13 +19,14 @@ export class PatientComponent implements OnInit {
   constructor(private _cacheService: CacheService,private cookieService:CookieService,private loginService: LoginService,
   private patientService: PatientService, public router: Router) { }
   ngOnInit() {
-      this.session_id = this.loginService.getSessionId();
+      this._cacheService.setGlobalPrefix("1.0.0");
+      this.session_id = this.cookieService.get('sessionId');
       this.userid = JSON.parse(this.cookieService.get("user_info")).userid;
       this.patient = this.usercol == 'patient'? true:false;
       this.usercol = JSON.parse(this.cookieService.get("user_info")).usercol;
       let  exists: boolean = this._cacheService.exists('profile');
       if(exists){
-          console.log("profile exist");
+         
           this.result = this._cacheService.get('profile');
       }else{
           this.patientService.getInfo(this.usercol, this.userid, this.session_id).subscribe(data => {
@@ -40,6 +41,7 @@ export class PatientComponent implements OnInit {
         if(data.result == "success"){
               localStorage.setItem("username", null);
               this.cookieService.remove("user_info");
+              this._cacheService.removeAll();
         }
         this.router.navigate(['./home']);
     })

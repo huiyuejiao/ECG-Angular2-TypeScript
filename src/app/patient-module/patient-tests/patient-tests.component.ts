@@ -23,27 +23,26 @@ export class PatientTestsComponent implements OnInit {
   private loginService:LoginService,private searchService:SearchService,public router: Router) { }
 
   ngOnInit() {
-      this.session_id = this.loginService.getSessionId();
+      this._cacheService.setGlobalPrefix("1.0.0");
+      this.session_id = this.cookieService.get('sessionId');
       this.userid = JSON.parse(this.cookieService.get("user_info")).userid;
       this.usercol = JSON.parse(this.cookieService.get("user_info")).usercol;
       let  exists: boolean = this._cacheService.exists('tests');
       if(exists){
-          console.log("Data exist");
-          this.loadTestData = false;
-          this.data = this._cacheService.get('tests');
+            this.data = this._cacheService.get('tests');
+            this.loadTestData = false;
       }else{
             this.patientService.getData(this.usercol, this.userid, this.session_id, Methods[Methods.gettests]).subscribe(data => {
-                    console.log(data);
-                    this.loadTestData = false;
                     this.data = data.results;
                     this.originalData = this.data;
                     this.data.sort(function (a, b) { return new Date(b.created).getTime() - new Date(a.created).getTime(); });
+                    this.loadTestData = false;
                     this._cacheService.set('tests', this.data, {maxAge: 10 * 60});
             });    
       }
   }
   testOnclick(test_id){
-      console.log(test_id);
+    
       this.router.navigate(['/patient/tests',test_id,"null"]);
   }
   onReset(searchForm){
@@ -51,9 +50,9 @@ export class PatientTestsComponent implements OnInit {
       this.data = this.originalData;
   }
   onSearch(searchform){
-      console.log(searchform);
+
       this.searchService.getTests(this.session_id,this.userid.toString(),searchform.from,searchform.to,searchform.comment,searchform.note).subscribe(data =>{
-          console.log(data);
+   
           this.data = data.results;
 
      })

@@ -23,21 +23,20 @@ export class DoctorCommentsComponent implements OnInit {
   constructor(private _cacheService: CacheService,private cookieService:CookieService,
   private doctorService: DoctorService,
   private loginService:LoginService,private searchService:SearchService,public router:Router) {
-      console.log("This is doctor comments constructor")
    }
 
   ngOnInit() {
+      this._cacheService.setGlobalPrefix("1.0.0");
       let  exists: boolean = this._cacheService.exists('doctor-comments');
       if(exists){
-          console.log("doctor-profcommentsile exist");
           this.loadCommentData = false;
           this.comments = this._cacheService.get('doctor-comments');
       }else{
-          this.session_id = this.loginService.getSessionId();
+          this.session_id = this.cookieService.get('sessionId');
           this.userid = JSON.parse(this.cookieService.get("user_info")).userid;
           this.usercol = JSON.parse(this.cookieService.get("user_info")).usercol;
           this.doctorService.getData(this.usercol, this.userid, this.session_id, Methods[Methods.getcomments]).subscribe(data => {
-                    console.log(data);
+                   
                     this.loadCommentData = false;
                     this.comments = data.results;
                     this.resetData = this.comments;
@@ -52,7 +51,6 @@ export class DoctorCommentsComponent implements OnInit {
   }
   onSearch(serachform){
         this.searchService.getComments(serachform.from,serachform.to,this.session_id,serachform.keyword).subscribe(data =>{
-            console.log(data);
             this.comments = data.results;
        })
   }

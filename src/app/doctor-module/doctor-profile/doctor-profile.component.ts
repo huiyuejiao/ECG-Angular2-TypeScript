@@ -17,16 +17,17 @@ export class DoctorProfileComponent implements OnInit {
   private doctorService: DoctorService,private loginService:LoginService) { }
 
   ngOnInit() {
+      this._cacheService.setGlobalPrefix("1.0.0");
       let  exists: boolean = this._cacheService.exists('doctor-profile');
       if(exists){
-          console.log("doctor-profile exist");
+         
           this.result = this._cacheService.get('doctor-profile');
       }else{
-          this.session_id = this.loginService.getSessionId();
+          this.session_id = this.cookieService.get('sessionId');
           this.userid = JSON.parse(this.cookieService.get("user_info")).userid;
           this.usercol = JSON.parse(this.cookieService.get("user_info")).usercol;
           this.doctorService.getInfo(this.usercol, this.userid, this.session_id).subscribe(data => {
-                    console.log(data);
+                    
                     this.result = data;
                     this._cacheService.set('doctor-profile', this.result, {maxAge: 10 * 60});
           });

@@ -25,17 +25,18 @@ export class DoctorPatientsComponent implements OnInit {
   private loginService:LoginService) { }
 
   ngOnInit() {
+      this._cacheService.setGlobalPrefix("1.0.0");
       let  exists: boolean = this._cacheService.exists('patients');
       if(exists){
-          console.log("doctor-patients exist");
+          
           this.loadPatients = false;
           this.data = this._cacheService.get('patients');
       }else{
-          this.session_id = this.loginService.getSessionId();
+          this.session_id = this.cookieService.get('sessionId');
           this.userid = JSON.parse(this.cookieService.get("user_info")).userid;
           this.usercol = JSON.parse(this.cookieService.get("user_info")).usercol;
           this.doctorService.getData(this.usercol, this.userid, this.session_id, Methods[Methods.getpatients]).subscribe(data => {
-                    console.log(data);
+                   
                     this.loadPatients = false;
                     this.data = data.results;
                     this._cacheService.set("patients",this.data,{maxAge: 10 * 60})

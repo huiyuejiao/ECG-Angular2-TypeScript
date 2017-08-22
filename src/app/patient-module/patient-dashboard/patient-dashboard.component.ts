@@ -24,28 +24,34 @@ export class PatientDashboardComponent implements OnInit {
   private loginService:LoginService, public router: Router) { }
 
   ngOnInit() {
-      this.session_id = this.loginService.getSessionId();
-      this.userid = JSON.parse(this.cookieService.get("user_info")).userid;
-      this.usercol = JSON.parse(this.cookieService.get("user_info")).usercol;
-      this.patientService.getData(this.usercol, this.userid, this.session_id, Methods[Methods.gettests]).subscribe(data => {
-                this.loadTestData = false;
-                console.log(data);
-                this.data = data.results;
-                this.data.sort(function (a, b) { return new Date(b.created).getTime() - new Date(a.created).getTime(); });
-                this.data = this.data.slice(0, 6);
-        });
+     this._cacheService.setGlobalPrefix("1.0.0");
+      this.session_id = this.cookieService.get('sessionId');
+      let  testExists: boolean = this._cacheService.exists('dashboard-tests');
+      if(testExists){
+        this.data = this._cacheService.get('dashboard-tests');
+        this.loadTestData = false;
+      }else{
+        this.userid = JSON.parse(this.cookieService.get("user_info")).userid;
+        this.usercol = JSON.parse(this.cookieService.get("user_info")).usercol;
+        this.patientService.getData(this.usercol, this.userid, this.session_id, Methods[Methods.gettests]).subscribe(data => {            
+                  this.data = data.results;
+                  this.data.sort(function (a, b) { return new Date(b.created).getTime() - new Date(a.created).getTime(); });
+                  this.data = this.data.slice(0, 6);
+                  this.loadTestData = false; 
+                  this._cacheService.set('dashboard-tests',this.data,{maxAge:10*60});
+          });
+      }
+
       let  exists: boolean = this._cacheService.exists('dashboard-comments');
       if(exists){
-        console.log("Data exist");
-        this.loadCommentData = false;
         this.comments = this._cacheService.get('dashboard-comments');
+        this.loadCommentData = false;
       }else{
-        this.patientService.getData(this.usercol, this.userid, this.session_id, Methods[Methods.getcomments]).subscribe(data => {
-                  console.log(data);
-                  this.loadCommentData = false;
+        this.patientService.getData(this.usercol, this.userid, this.session_id, Methods[Methods.getcomments]).subscribe(data => {          
                   this.comments = data.results;
                   this.comments.sort(function (a, b) { return new Date(b.created).getTime() - new Date(a.created).getTime(); });
                   this.comments = this.comments.slice(0, 8);
+                  this.loadCommentData = false;
                   this._cacheService.set('dashboard-comments', this.comments, {maxAge: 10 * 60});
         });
       }

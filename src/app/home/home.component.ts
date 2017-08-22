@@ -61,6 +61,7 @@ export class HomeComponent implements OnInit {
                     now.setMinutes(now.getMinutes() + 20);
                     let options:CookieOptionsArgs = { expires:now};
                     this.cookieService.put('user_info',JSON.stringify(userinfo),options);
+                    this.cookieService.put('sessionId',res.session_id,options);
                     let user = this.patientLoginShow ? '/patient':'/doctor';
                     let redirect = this.loginService.redirectUrl ? this.loginService.redirectUrl : user;
                     this.toastr.success("Redirecting to  user page!","Login Successfully!");

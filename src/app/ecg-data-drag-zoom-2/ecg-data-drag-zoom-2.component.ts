@@ -63,21 +63,14 @@ export class EcgDataDragZoom2Component implements OnInit {
     if (
       (changes['data'] && !changes['data'].isFirstChange()) 
     ) {
-      console.log(changes['data']);
     }
 
   }
   ngOnInit() {
-    console.log(this.data2);
   this.minX = this.d3.min(this.data2, function(d) { return d[0]; });
   this.maxX = this.d3.max(this.data2, function(d) { return d[0]; });
   this.minY = this.d3.min(this.data2, function(d) { return d[1]; });
   this.maxY = this.d3.max(this.data2, function(d) { return d[1]; });
-
-  console.log("This is minX: " + this.minX);
-  console.log( "This is maxX: " + this.maxX);
-  console.log("This is minY: " + this.minY);
-  console.log( "This is maxY: " + this.maxY);
     let d3 = this.d3;
     let self = this;
     function zoomed() {
@@ -93,7 +86,6 @@ export class EcgDataDragZoom2Component implements OnInit {
     this.d3ParentElement = d3.select(this.parentNativeElement);
     // svg
     this.svg = this.d3ParentElement.select('svg');
-    console.log(window.innerWidth);
     if(window.innerWidth>=1480){
         this.svg.attr("width","910");
     }else if(window.innerWidth>=1380){
@@ -107,7 +99,6 @@ export class EcgDataDragZoom2Component implements OnInit {
     }else{
         this.svg.attr("width","580");
     }
-    console.log(this.svg.attr("width"))
     this.width = +this.svg.attr("width") - this.margin.left - this.margin.right,
     this.height = +this.svg.attr("height") - this.margin.top - this.margin.bottom,
     this.g = this.svg.append("g")
@@ -242,13 +233,13 @@ onDragRight(){
     _zoom.scaleBy(self.zoomRect, 1);
 }
 onTimescale(index){
-    console.log(index);
+
     let d3 = this.d3;
     let self = this;
     let data_zoom_length = this.data_index[index];
-    console.log(data_zoom_length);
+
     let zoomIndex = this.maxX/data_zoom_length*1.1;
-    console.log(zoomIndex)
+
     function zoomed() {
         d3.event.transform.x = 0;
         var xz = d3.event.transform.rescaleX(self.xAxisScale);
